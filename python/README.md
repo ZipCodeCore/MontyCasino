@@ -1,7 +1,6 @@
 # MontyCasino (Python)
 
-The Python edition of the casino starter project. Like the Java edition, it is
-a scaffold: the dashboard, console and class structure work, and the parts
+The casino starter project. It is a scaffold: the dashboard, console and class structure work, and the parts
 students implement are stubs that raise `NotImplementedError`.
 
 ```bash
@@ -20,10 +19,10 @@ Requires Python 3.11+.
 python/
 ├── pyproject.toml
 ├── src/montycasino/
-│   ├── casino.py            # Casino: the dashboard loop (was Casino.java)
+│   ├── casino.py            # Casino: the dashboard loop
 │   ├── accounts.py          # CasinoAccount, CasinoAccountManager (stubs)
-│   ├── game.py              # Game ABC        (was GameInterface)
-│   ├── player.py            # Player ABC      (was PlayerInterface)
+│   ├── game.py              # Game: abstract base class for games
+│   ├── player.py            # Player: abstract base class for players
 │   ├── errors.py            # AccountNotFoundError, InvalidGameSelectionError
 │   ├── utils/               # IOConsole, AnsiColor
 │   └── games/
@@ -43,12 +42,11 @@ To add a game, write a `Game` and `Player` subclass and add one line to `GAMES`;
 
 The tests marked `xfail` describe behaviour you still owe. They are *strict*: once you implement something, its test reports as failing until you delete the marker.
 
-## Java to Python notes
+## Design notes
 
-- `GameInterface` / `PlayerInterface` became abstract base classes. `Game` already implements `add` / `remove` with a list, so multi-player games work out of the box.
-- Players take their `CasinoAccount` in the constructor (the Java version's players had no way to get one).
-- `IOConsole` uses `str.format` placeholders (`"{}"`), loops instead of recursing on bad numeric input, and resets colour after each write. Streams are injectable, so tests need no mocking.
-- The `Casino` game `if/else` chain became the `GAMES` dictionary.
-- Java's `Casino` swapped the name and password in its "No account found" message; that is fixed.
-- The dashboard now lists `[ logout ]`, which the Java code accepted but never mentioned.
-- The exception `TODO`s from the Java code are kept, but with specific exception types.
+- `Game` and `Player` are abstract base classes. All players must have a reference to the `CasinoAccount` used to log in, and are capable of `play`ing a game. `Game` implements `add` / `remove` with a list, so multi-player games work out of the box; each subclass defines how the game will `run`.
+- `CasinoAccount` is registered for each user and is used to log in and select a game. It outlives any single game, so it is the natural owner of the player's balance.
+- `CasinoAccountManager` stores, manages and retrieves accounts. It is advised that every operation in it is logged.
+- `IOConsole` prompts the user and reads input. Its message templates use `str.format` placeholders (`"{}"`), and its streams are injectable so tests need no mocking. `AnsiColor` supplies output colours.
+- `Casino` chooses a game through the `GAMES` dictionary, so the menu updates itself when one is added.
+- The `TODO`s in `Casino` mark where better error handling is expected: a failed login raises `AccountNotFoundError` and a bad selection raises `InvalidGameSelectionError`.
