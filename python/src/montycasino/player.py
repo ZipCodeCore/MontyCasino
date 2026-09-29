@@ -19,4 +19,7 @@ class Player(ABC):
 
     @abstractmethod
     def play(self) -> Any:
-        """Define how this kind of player plays its game."""
+        """Define how this kind of player plays its game.
+
+        Return whatever value you would like.
+        """
