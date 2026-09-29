@@ -1,5 +1,7 @@
 # Casino Simulation
 
+> This repository has two editions of the starter project: [`java/`](java/) (Maven) and [`python/`](python/) (see its README). Pick one language; the assignment is the same. The javadocs in `docs/` describe the Java edition.
+
 * **Objective** - To create an casino simulation
 * **Purpose** - To gain familiarity with general object orientation and design principles
 

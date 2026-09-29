@@ -560,3 +560,12 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/eclipse,intellij,netbeans,notepadpp,sublimetext,visualstudio
+
+### Python ###
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
